@@ -6,7 +6,9 @@ from imagekit.processors import ResizeToFill
 class Post(models.Model):
     content = models.CharField(max_length=100)
     # image = models.ImageField(blank=True)
-    image = ProcessedImageField(
+class Image(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE) # 상위 파일이 지워지면 같이 지워지게 만듦, on_delete=models.CASCADE
+    file = ProcessedImageField(
                 upload_to = 'posts/images', # 저장위치
                 processors = [ResizeToFill(600,600)], # 크기지정
                 format = 'JPEG',
