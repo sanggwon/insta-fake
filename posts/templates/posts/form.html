@@ -2,7 +2,8 @@
 {% load bootstrap4 %}
 
 {% block body %}
-    <form method = 'post'>
+    <form method = 'post' enctype="multipart/form-data" accept = 'image/*'> 
+    <!--파일이 들어갈수 있음 (enctype="multipart/form-data")-->
         {% csrf_token %}
         {% bootstrap_form form %}
         <input type="submit" name=""/>
