@@ -27,8 +27,15 @@
   <div class="card-body">
     <p class="card-text">{{post.content}}</p>
     {% if post.user == user %}
-    <a href="{% url 'posts:update' post.id %}" class="btn btn-warning">수정</a>
-    <a href="{% url 'posts:delete' post.id %}" class="btn btn-danger">삭제</a>
+      <a href="{% url 'posts:update' post.id %}" class="btn btn-warning">수정</a>
+      <a href="{% url 'posts:delete' post.id %}" class="btn btn-danger">삭제</a>
     {% endif %}
+  </div>
+  <div class="card-body">
+    <form action = "{% url 'posts:comment_create' post.id %}" method="post">
+      {% csrf_token %}
+      {{comment_form.content}}
+      <input type="submit"/>
+    </form>
   </div>
 </div>
