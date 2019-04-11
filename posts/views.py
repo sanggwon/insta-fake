@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from .forms import PostForm, ImageForm, CommentForm
-from .models import Post
+from .models import Post, Comment
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 # Create your views here.
 
 def list(request):
@@ -68,6 +69,7 @@ def delete(request,id):
     
     
 @login_required 
+@require_POST # POST 방식이 아니면 튕겨냄
 def comment_create(request,post_id):
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -79,3 +81,10 @@ def comment_create(request,post_id):
             return redirect("posts:list")
     else :
         pass
+
+@login_required
+def comment_delete(request,post_id,comment_id):
+    comment = Comment.objects.get(id=comment_id)
+    if comment.user == request.user :
+        comment.delete()
+    return redirect("posts:list")
