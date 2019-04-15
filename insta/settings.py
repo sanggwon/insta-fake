@@ -125,3 +125,5 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AUTH_USER_MODEL = 'accounts.User' # 기본으로 잡고 있는 유저모델을 accounts에 있는 유저모델을 사용(덮어씌우기)
