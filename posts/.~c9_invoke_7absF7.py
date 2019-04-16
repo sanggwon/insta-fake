@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from .forms import PostForm, ImageForm, CommentForm
-from .models import Post, Comment, Hashtag
+from .models import Post, Comment
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 # Create your views here.
@@ -29,18 +29,7 @@ def create(request):
             post.save()
             
             
-            # 해시태그 기능 추가
-            content = post_form.cleaned_data.get('content')
-            content_words = content.split()
-            for word in content_words :
-                if word[0] == "#" :
-                    tag = Hashtag.objects.get_or_create(content=word)
-                    # print(tag)
-                    # (<Hashtag: Hashtag object (1)>, True)
-                    post.hashtags.add(tag[0])
-            # 해시태그 끝
-            
-            
+            #
             for image in request.FILES.getlist('file') :
                 request.FILES['file'] = image
                 image_form = ImageForm(request.POST,request.FILES)
@@ -68,20 +57,6 @@ def update(request,id):
             post_form = PostForm(request.POST, instance=post)
             if post_form.is_valid():
                 post_form.save()
-                
-                post.hashtags.clear()
-                
-                # 해시태그 기능 추가
-                content = post_form.cleaned_data.get('content')
-                content_words = content.split()
-                for word in content_words :
-                    if word[0] == "#" :
-                        tag = Hashtag.objects.get_or_create(content=word)
-                        # print(tag)
-                        # (<Hashtag: Hashtag object (1)>, True)
-                        post.hashtags.add(tag[0])
-                # 해시태그 끝
-                
                 return redirect("posts:list")
         else:
             post_form = PostForm(instance=post)
