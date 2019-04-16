@@ -2,25 +2,40 @@
 {% load bootstrap4 %}
 {% block body %}
     <!--사용자 정보 출력 시작-->
-    <div class="row">
-        <div class="col-4">
+    <div class="row my-5">
+        <div class="col-4 d-flex justify-content-center">
             <!--프로필이미지-->
-        </div>
-        <div class="col-8">
-            <!--유저 정보-->
-            <h1>{{user_info.username}}</h1>
-            {% if user != user_info %}
-                
-                {% if user_info in user.followings.all %}
-                    <a href="{% url 'accounts:follow' user_info.id %}" class="btn btn-light">팔로잉</a>
-                {% else %}
-                    <a href="{% url 'accounts:follow' user_info.id %}" class="btn btn-primary">팔로우</a>
-                {% endif %}
+            {% if user_info.profile_image %}
+            <img src= "{{user_info.profile_image.url}}" alt ="" class="rounded-circle" >
             {% else %}
-                <a href="{% url 'accounts:edit_profile' user_info.id %}" class="btn btn-light">프로필수정</a>
+            <img src= "media/accounts/images/artide.jpg" alt ="" class="rounded-circle" >
             {% endif %}
-            <h5>팔로잉 {{user_info.followings.count}}개</h5>
-            <h5>팔로워 {{user_info.followers.count}}개</h5>
+        </div>
+        <div class="col-6">
+            <!--유저 정보-->
+            <div class="row d-flex align-items-center">
+                <h1>{{user_info.username}}</h1>
+                {% if user != user_info %}
+                    
+                    {% if user_info in user.followings.all %}
+                        <a href="{% url 'accounts:follow' user_info.id %}" class="btn btn-light">팔로잉</a>
+                    {% else %}
+                        <a href="{% url 'accounts:follow' user_info.id %}" class="btn btn-primary">팔로우</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'accounts:edit_profile' user_info.id %}" class="btn btn-light">프로필수정</a>
+                {% endif %}
+            </div>
+            <div class="row d-flex justify-content-start">
+                <h5 class="mx-3">게시물 : {{user_info.post_set.count}}</h5>
+                <h5 class="mx-3">팔로잉 : {{user_info.followings.count}}</h5>
+                <h5 class="mx-3">팔로워 : {{user_info.followers.count}}</h5>
+            </div>
+            <div class = "row d-flex justify-content-start">
+                <div class="col-6">
+                    <p>{{user_info.introduce}}</p>
+                </div>
+            </div>
         </div>
     </div>
     <!--사용자 정보 출력 끝-->

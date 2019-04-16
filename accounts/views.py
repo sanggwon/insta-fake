@@ -45,7 +45,7 @@ def edit_profile(request,id):
     user = User.objects.get(id=id)
     if me == user :
         if request.method == "POST":
-            form = CustomUserChangeFrom(request.POST, instance=user)
+            form = CustomUserChangeFrom(request.POST, request.FILES, instance=user)
             # form = CustomUserChangeFrom(instance=user, data = request.POST)
             # user에 대한 정보를 instance 안에 넣어줘야함(수정하기 위함)
             if form.is_valid() :
