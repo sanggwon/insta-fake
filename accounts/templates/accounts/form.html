@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load bootstrap4 %}
+{% load socialaccount %}
+
+
 {% block body %}
     {% if request.resolver_match.url_name == "signup" %}
         <h1>회원가입</h1>
@@ -14,4 +17,7 @@
     {% bootstrap_form form %}
     <input type="submit" name=""/>
 </form>
+    {% if request.resolver_match.url_name == "login" %}
+        <a href="{% provider_login_url 'kakao' method =='oauth2' %}">카카오로그인</a>
+    {% endif %}
 {% endblock %}
